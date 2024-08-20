@@ -1,5 +1,7 @@
+
 import Left from "./Home/Leftpart/Left"
 import Right from "./Home/Rightpart/Right"
+
 
 function hello() {
   return (
