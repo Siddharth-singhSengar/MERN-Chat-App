@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 
 function Signup() {
@@ -8,14 +9,35 @@ function Signup() {
     formState: { errors },
   } = useForm();
 
-  const password = watch("password","")
-  const ConfirmPassword = watch("confirmPassword","")
+  const password = watch("password", "");
+  const ConfirmPassword = watch("ConfirmPassword", "");
 
-  const validatePasswordmatch = (value) =>{
-      return value===password || "Password do not match"
-  }
+  const validatePasswordmatch = (value) => {
+    return value === password || "Password do not match";
+  };
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const userInfo = {
+      fullname: data.fullname,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+    };
+    await axios
+      .post("http://localhost:4002/user/signup", userInfo)
+      .then((response) => {
+        if (response.data) {
+          alert("Signup successful");
+        }
+        localStorage.setItem("ChatApp", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert("Error: " + error.response.data.error);
+        }
+      });
+  };
+
   return (
     <div className="flex h-screen items-center justify-center  bg-gray-500  ">
       <form
@@ -41,11 +63,13 @@ function Signup() {
             type="text"
             className="grow"
             placeholder="Fullname"
-            {...register("Fullname", { required: true })}
+            {...register("fullname", { required: true })}
           />
         </label>
-        {errors.Fullname && (
-          <span className="text-red-500 text-md font-semibold">This field is required</span>
+        {errors.fullname && (
+          <span className="text-red-500 text-md font-semibold">
+            This field is required
+          </span>
         )}
 
         <label className="input input-bordered flex items-center gap-2">
@@ -62,11 +86,13 @@ function Signup() {
             type="email"
             className="grow"
             placeholder="Email"
-            {...register("Email", { required: true })}
+            {...register("email", { required: true })}
           />
         </label>
-        {errors.Email && (
-          <span className="text-red-500 text-md font-semibold">This field is required</span>
+        {errors.email && (
+          <span className="text-red-500 text-md font-semibold">
+            This field is required
+          </span>
         )}
 
         <label className="input input-bordered flex items-center gap-2">
@@ -90,7 +116,9 @@ function Signup() {
           />
         </label>
         {errors.password && (
-          <span className="text-red-500 text-md font-semibold">This field is required</span>
+          <span className="text-red-500 text-md font-semibold">
+            This field is required
+          </span>
         )}
 
         <label className="input input-bordered flex items-center gap-2">
@@ -110,11 +138,16 @@ function Signup() {
             type="password"
             className="grow"
             placeholder="Confirm Password"
-            {...register("ConfirmPassword", { required: true,  validate:validatePasswordmatch})}
+            {...register("confirmPassword", {
+              required: true,
+              validate: validatePasswordmatch,
+            })}
           />
         </label>
-        {errors.ConfirmPassword && (
-          <span className="text-red-500 text-md font-semibold">{errors.ConfirmPassword.message}</span>
+        {errors.confirmPassword && (
+          <span className="text-red-500 text-md font-semibold">
+            {errors.confirmPassword.message}
+          </span>
         )}
 
         <div className="flex justify-between">

@@ -19,10 +19,16 @@ export const signup = async (req, res) => {
       email,
       password: hashPassword,
     });
-    newUser.save();
+    await newUser.save();
     if (newUser) {
       createTokenandSaveCookie(newUser._id, res);
-      res.status(201).json({ message: "User created successfully", newUser });
+      res.status(201).json({ message: "User created successfully", 
+        user: {
+          _id: newUser._id,
+          fullname: newUser.fullname,
+          email: newUser.email,
+        },
+       });
     }
   } catch (error) {
     console.log(error);
@@ -39,7 +45,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Invalid user credential" });
     }
     createTokenandSaveCookie(user._id, res);
-    res.status(200).json({
+    res.status(201).json({
       message: "User logged in successfully",
       user: {
         _id: user._id,
