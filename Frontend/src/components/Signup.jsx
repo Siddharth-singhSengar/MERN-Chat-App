@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/Authprovider";
 
 function Signup() {
+  const [authUser, setauthuser] = useAuth();
   const {
     register,
     handleSubmit,
@@ -30,6 +32,7 @@ function Signup() {
           alert("Signup successful");
         }
         localStorage.setItem("ChatApp", JSON.stringify(response.data));
+        setauthuser(response.data);
       })
       .catch((error) => {
         if (error.response) {
