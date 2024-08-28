@@ -1,8 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/Authprovider";
+
 
 function Login() {
+  const [authUser, setAuthUser] = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -21,6 +26,7 @@ function Login() {
           alert("Login successful");
         }
         localStorage.setItem("ChatApp", JSON.stringify(response.data));
+        setAuthUser(response.data)
       })
       .catch((error) => {
         if (error.response) {
@@ -89,7 +95,12 @@ function Login() {
         )}
 
         <div className="flex justify-between">
-          <p>New User? Signup </p>
+          <p>
+            New User?
+            <Link to="/signup" className="text-blue-300 underline cursor-pointer ml-1">
+              Signup
+            </Link>
+          </p>
           <input
             type="submit"
             value="Login"
