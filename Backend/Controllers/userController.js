@@ -22,13 +22,14 @@ export const signup = async (req, res) => {
     await newUser.save();
     if (newUser) {
       createTokenandSaveCookie(newUser._id, res);
-      res.status(201).json({ message: "User created successfully", 
+      res.status(201).json({
+        message: "User created successfully",
         user: {
           _id: newUser._id,
           fullname: newUser.fullname,
           email: newUser.email,
         },
-       });
+      });
     }
   } catch (error) {
     console.log(error);
@@ -66,5 +67,18 @@ export const logout = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const allUsers = async (req, res) => {
+  try {
+    const loggedInUser = req.user._id;
+    const filteredUsers = await User.find({
+      _id: { $ne: loggedInUser },
+    }).select("-password");
+    res.status(201).json(filteredUsers);
+    
+  } catch (error) {
+    console.log("Error: " + error);
   }
 };

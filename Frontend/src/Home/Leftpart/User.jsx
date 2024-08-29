@@ -1,4 +1,4 @@
-function User() {
+function User({ user }) {
   return (
     <div>
       <div className="flex space-x-4 px-8 py-3 hover:bg-slate-600 duration-300 cursor-pointer">
@@ -8,8 +8,8 @@ function User() {
           </div>
         </div>
         <div>
-          <h1 className="font-bold">Rohan</h1>
-          <span>Rohan@dev.com</span>
+          <h1 className="font-bold">{user.fullname}</h1>
+          <span>{user.email}</span>
         </div>
       </div>
     </div>

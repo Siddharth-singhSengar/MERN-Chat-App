@@ -20,7 +20,7 @@ function Login() {
       password: data.password,
     };
     axios
-      .post("http://localhost:4002/user/login", userInfo)
+      .post("/api/user/login", userInfo)
       .then((response) => {
         if (response.data) {
           alert("Login successful");

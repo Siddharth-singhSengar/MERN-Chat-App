@@ -27,7 +27,7 @@ function Signup() {
       confirmPassword: data.confirmPassword,
     };
     await axios
-      .post("http://localhost:4002/user/signup", userInfo)
+      .post("/api/user/signup", userInfo)
       .then((response) => {
         if (response.data) {
           alert("Signup successful");
