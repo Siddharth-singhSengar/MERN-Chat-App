@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import userroutes from "./routes/userRoutes.js";
+import messageroute from "./routes/messageRoutes.js"
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 const app = express();
@@ -22,6 +23,7 @@ try {
 }
 
 app.use("/api/user", userroutes);
+app.use("/api/message", messageroute)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
