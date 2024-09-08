@@ -9,8 +9,9 @@ function useGetAllUsers() {
       setLoading(true);
       try {
         const token = Cookies.get("jwt");
+        console.log(token);
         const response = await axios.get("/api/user/allusers", {
-          credentials: "include",
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -25,5 +26,7 @@ function useGetAllUsers() {
   }, []);
   return [allUsers, loading];
 }
+
+
 
 export default useGetAllUsers;
