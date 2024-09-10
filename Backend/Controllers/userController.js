@@ -1,10 +1,8 @@
 import User from "../Models/Users.js";
 import bcrypt from "bcryptjs";
-import createTokenandSaveCookie from "../jwt/generateToken.js";
-
+import createTokenAndSaveCookie from "../jwt/generateToken.js";
 export const signup = async (req, res) => {
   const { fullname, email, password, confirmPassword } = req.body;
-
   try {
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
@@ -13,6 +11,7 @@ export const signup = async (req, res) => {
     if (user) {
       return res.status(400).json({ error: "User already registered" });
     }
+    // Hashing the password
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = await new User({
       fullname,
@@ -21,7 +20,7 @@ export const signup = async (req, res) => {
     });
     await newUser.save();
     if (newUser) {
-      createTokenandSaveCookie(newUser._id, res);
+      createTokenAndSaveCookie(newUser._id, res);
       res.status(201).json({
         message: "User created successfully",
         user: {
@@ -33,10 +32,9 @@ export const signup = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
-
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -45,7 +43,7 @@ export const login = async (req, res) => {
     if (!user || !isMatch) {
       return res.status(400).json({ error: "Invalid user credential" });
     }
-    createTokenandSaveCookie(user._id, res);
+    createTokenAndSaveCookie(user._id, res);
     res.status(201).json({
       message: "User logged in successfully",
       user: {
@@ -56,14 +54,13 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
-
 export const logout = async (req, res) => {
   try {
     res.clearCookie("jwt");
-    res.status(200).json({ message: "User logged out successfully" });
+    res.status(201).json({ message: "User logged out successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
@@ -77,8 +74,7 @@ export const allUsers = async (req, res) => {
       _id: { $ne: loggedInUser },
     }).select("-password");
     res.status(201).json(filteredUsers);
-    
   } catch (error) {
-    console.log("Error: " + error);
+    console.log("Error in allUsers Controller: " + error);
   }
 };
