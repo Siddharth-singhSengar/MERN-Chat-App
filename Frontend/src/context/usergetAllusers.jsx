@@ -9,7 +9,6 @@ function useGetAllUsers() {
       setLoading(true);
       try {
         const token = Cookies.get("jwt");
-        console.log(token);
         const response = await axios.get("/api/user/allusers", {
           withCredentials: true,
           headers: {

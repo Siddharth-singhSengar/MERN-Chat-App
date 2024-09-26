@@ -79,6 +79,6 @@ export const allUsers = async (req, res) => {
     res.status(201).json(filteredUsers);
     
   } catch (error) {
-    console.log("Error: " + error);
+    console.log("Error in alluser: " + error);
   }
 };

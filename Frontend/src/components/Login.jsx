@@ -2,7 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/Authprovider";
+import { useAuth } from "../context/AuthProvider";
+import toast from "react-hot-toast";
 
 
 function Login() {
@@ -23,14 +24,16 @@ function Login() {
       .post("/api/user/login", userInfo)
       .then((response) => {
         if (response.data) {
-          alert("Login successful");
+          toast.success("Login successful");
+
         }
         localStorage.setItem("ChatApp", JSON.stringify(response.data));
         setAuthUser(response.data)
       })
       .catch((error) => {
         if (error.response) {
-          alert("Error: " + error.response.data.error);
+          toast.error("Error: " + error.response.data.error);
+
         }
       });
   };
