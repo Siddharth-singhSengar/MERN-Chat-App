@@ -4,8 +4,9 @@ import mongoose from "mongoose";
 import userroutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import messageroute from "./routes/messageRoutes.js"
+import { app,server } from "./SocketIo/server.js";
 import cors from "cors"
-import { app, server } from "./SocketIo/Server.js"
+
 import path from 'path'; 
 
 
