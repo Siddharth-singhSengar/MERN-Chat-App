@@ -5,7 +5,7 @@ import userroutes from "./routes/userRoutes.js";
 import cookieParser from "cookie-parser";
 import messageroute from "./routes/messageRoutes.js"
 import cors from "cors"
-import { app, server } from "./SocketIO/Server.js";
+import { app, server } from "./SocketIo/Server.js"
 import path from 'path'; 
 
 
