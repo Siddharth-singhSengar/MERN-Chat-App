@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import messageroute from "./routes/messageRoutes.js"
 import cors from "cors"
 import { app, server } from "./SocketIO/server.js";
+import authRoutes from "./routes/userRoutes.js"
+import path from 'path'; 
 
 
 
@@ -23,8 +25,19 @@ try {
   console.log(error);
 }
 
+app.use("/api/auth",authRoutes)
 app.use("/api/user", userroutes);
 app.use("/api/message", messageroute)
+
+//----deployment---//
+if(process.env.NODE_ENV === "production"){
+  const dirPath = path.resolve();
+
+  app.use(express.static("./Frontend/dist"));
+  app.get("*",(req,res) =>{
+    res.sendFile(path.resolve(dirPath, "./Frontend/dist","index.html"))
+  })
+}
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
