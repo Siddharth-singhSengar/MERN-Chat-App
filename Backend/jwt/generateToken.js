@@ -7,8 +7,6 @@ const createTokenandSaveCookie = (userId, res) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: true,
-    sameSite: 'none',
-    path: '/', // Ensure the path is set correctly
     sameSite: "strict"
   });
   

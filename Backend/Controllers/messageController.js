@@ -1,12 +1,10 @@
+import { getReceiverSocketId, io } from "../SocketIO/server.js";
 import Conversation from "../Models/conversation.js";
 import Message from "../Models/message.js";
-import { getReceiverSocketId, io } from "../SocketIO/server.js";
-
 
 export const sendMessage = async (req, res) => {
   try {
     const { message } = req.body;
-
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
     let conversation = await Conversation.findOne({
@@ -17,7 +15,6 @@ export const sendMessage = async (req, res) => {
     if (!conversation) {
       conversation = await Conversation.create({
         members: [senderId, receiverId],
-        
       });
     }
     const newMessage = new Message({

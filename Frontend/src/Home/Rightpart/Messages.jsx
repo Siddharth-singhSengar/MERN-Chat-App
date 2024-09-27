@@ -4,7 +4,6 @@ import Loading from "../../components/Loading.jsx";
 import Message from "./Message";
 import useGetSocketMessage from "../../context/useGetSocketmessage.js";
 
-
 function Messages() {
   const { loading, messages } = useGetMessage();
   useGetSocketMessage();
