@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import messageroute from "./routes/messageRoutes.js"
 import cors from "cors"
 import { app, server } from "./SocketIO/server.js";
-import authRoutes from "./routes/userRoutes.js"
 import path from 'path'; 
 
 
@@ -25,7 +24,7 @@ try {
   console.log(error);
 }
 
-app.use("/api/auth",authRoutes)
+
 app.use("/api/user", userroutes);
 app.use("/api/message", messageroute)
 
